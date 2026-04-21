@@ -316,11 +316,11 @@ Expected final output (all green):
 ```
 PASSED  test_calculators.py::TestPERC::...           (10 tests)
 PASSED  test_calculators.py::TestCHADSVASc::...      (10 tests)
-PASSED  test_calculators.py::TestASCVD::...          ( 8 tests)
+PASSED  test_calculators.py::TestASCVD::...          ( 9 tests)
 PASSED  test_calculators.py::TestHEARTScore::...     (11 tests)
-PASSED  test_calculators.py::TestPECARN::...         (16 tests)
+PASSED  test_calculators.py::TestPECARN::...         (19 tests)
 
-55 passed in X.XXs
+59 passed in X.XXs
 ```
 
 ### 7.7 Commit and Push to Main
@@ -338,7 +338,7 @@ git push origin main
 3. You should see a workflow run triggered by your push.
 4. Click on the run to expand it, then click on the **"Run pytest test suite"**
    job to see the live log output.
-5. All 55 tests should pass and the workflow status should show ✅.
+5. All 59 tests should pass and the workflow status should show ✅.
 
 ---
 
@@ -398,8 +398,8 @@ curl -X POST http://127.0.0.1:5000/api/chads_vasc \
 | Criterion | Points |
 |-----------|--------|
 | `calculate_heart_score()` passes all 11 tests | 35 |
-| `calculate_pecarn()` passes all 16 tests | 35 |
-| CI workflow runs and shows all 55 tests passing (screenshot) | 20 |
+| `calculate_pecarn()` passes all 19 tests | 35 |
+| CI workflow runs and shows all 59 tests passing (screenshot) | 20 |
 | Brief written reflection (≤ 200 words) on what CI means for clinical software safety | 10 |
 | **Total** | **100** |
 

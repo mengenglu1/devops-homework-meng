@@ -23,6 +23,10 @@ on:
   pull_request:
     branches: [ "main" ]
 
+# Explicitly restrict the default GITHUB_TOKEN to read-only permissions.
+permissions:
+  contents: read
+
 jobs:
   test:
     name: Run pytest test suite

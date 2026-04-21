@@ -17,6 +17,8 @@ Run the development server:
 Then open http://127.0.0.1:5000 in your browser.
 """
 
+import os
+
 from flask import Flask, jsonify, render_template_string, request
 
 from calculators import (
@@ -145,12 +147,8 @@ def perc_route():
             surgery_trauma_4wks=data["surgery_trauma_4wks"],
         )
         return jsonify(result)
-    except Exception as exc:
-        return jsonify({"error": str(exc)}), 500
-
-
-# ---------------------------------------------------------------------------
-# /api/heart
+    except Exception:
+        return jsonify({"error": "An unexpected error occurred."}), 500
 # ---------------------------------------------------------------------------
 
 @app.route("/api/heart", methods=["POST"])
@@ -175,8 +173,8 @@ def heart_route():
         return jsonify({"error": str(exc)}), 501
     except ValueError as exc:
         return jsonify({"error": str(exc)}), 400
-    except Exception as exc:
-        return jsonify({"error": str(exc)}), 500
+    except Exception:
+        return jsonify({"error": "An unexpected error occurred."}), 500
 
 
 # ---------------------------------------------------------------------------
@@ -206,8 +204,8 @@ def chads_vasc_route():
             sex=data["sex"],
         )
         return jsonify(result)
-    except Exception as exc:
-        return jsonify({"error": str(exc)}), 500
+    except Exception:
+        return jsonify({"error": "An unexpected error occurred."}), 500
 
 
 # ---------------------------------------------------------------------------
@@ -242,8 +240,8 @@ def ascvd_route():
         return jsonify(result)
     except ValueError as exc:
         return jsonify({"error": str(exc)}), 400
-    except Exception as exc:
-        return jsonify({"error": str(exc)}), 500
+    except Exception:
+        return jsonify({"error": "An unexpected error occurred."}), 500
 
 
 # ---------------------------------------------------------------------------
@@ -282,8 +280,8 @@ def pecarn_route():
         return jsonify({"error": str(exc)}), 501
     except ValueError as exc:
         return jsonify({"error": str(exc)}), 400
-    except Exception as exc:
-        return jsonify({"error": str(exc)}), 500
+    except Exception:
+        return jsonify({"error": "An unexpected error occurred."}), 500
 
 
 # ---------------------------------------------------------------------------
@@ -291,4 +289,7 @@ def pecarn_route():
 # ---------------------------------------------------------------------------
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    # Use FLASK_DEBUG=true environment variable to enable debug mode.
+    # Never enable debug mode in production.
+    debug = os.environ.get("FLASK_DEBUG", "false").lower() == "true"
+    app.run(debug=debug)
