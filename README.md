@@ -373,15 +373,6 @@ Then open the application in a browser to see it function.
 
 ---
 
-## 9. Scoring Rubric
-
-| Criterion | Points |
-|-----------|--------|
-| `calculate_heart_score()` passes all 11 tests | 35 |
-| `calculate_pecarn()` passes all 19 tests | 35 |
-| CI workflow runs and shows all 59 tests passing (screenshot) | 20 |
-| Brief written reflection (≤ 200 words) on what CI means for clinical software safety | 10 |
-| **Total** | **100** |
 
 ### Submission
 
