@@ -413,10 +413,28 @@ def calculate_heart_score(history, ecg, age_score, risk_factors, troponin):
          ``'interpretation'``.
     """
     # TODO: Students — implement this function
-    raise NotImplementedError(
-        "calculate_heart_score() is not yet implemented. "
-        "Please implement this function according to the docstring."
-    )
+    # Validate inputs
+    for param, name in [(history, 'history'), (ecg, 'ecg'), (age_score, 'age_score'), (risk_factors, 'risk_factors'), (troponin, 'troponin')]:
+        if not isinstance(param, int) or param not in [0, 1, 2]:
+            raise ValueError(f"{name} must be 0, 1, or 2")
+    
+    score = history + ecg + age_score + risk_factors + troponin
+    
+    if score <= 3:
+        risk_level = 'low'
+        interpretation = "Low risk (~1.7 % MACE) - consider early discharge"
+    elif score <= 6:
+        risk_level = 'moderate'
+        interpretation = "Moderate risk (~12 % MACE) - observe; serial troponins"
+    else:
+        risk_level = 'high'
+        interpretation = "High risk (~65 % MACE) - early invasive strategy"
+    
+    return {
+        "score": score,
+        "risk_level": risk_level,
+        "interpretation": interpretation,
+    }
 
 
 # =============================================================================
@@ -557,7 +575,51 @@ def calculate_pecarn(age_months, gcs, altered_mental_status,
            low          → 'CT scan NOT recommended'
     """
     # TODO: Students — implement this function
-    raise NotImplementedError(
-        "calculate_pecarn() is not yet implemented. "
-        "Please implement this function according to the docstring."
-    )
+    # Validate GCS
+    if not (3 <= gcs <= 15):
+        raise ValueError("gcs must be between 3 and 15 inclusive")
+    
+    if age_months < 24:
+        # Age < 24 months
+        if gcs < 15 or palpable_skull_fracture or altered_mental_status:
+            risk_level = 'high'
+            recommendation = 'CT scan recommended'
+            interpretation = 'CT scan recommended'
+        elif (loss_of_consciousness or 
+              scalp_hematoma_location == 'non-frontal' or 
+              severe_mechanism or 
+              vomiting):
+            risk_level = 'intermediate'
+            recommendation = ('CT scan versus observation: individualise based on '
+                            'physician experience, multiple vs isolated findings, '
+                            'worsening symptoms, age < 3 months, parental preference')
+            interpretation = recommendation
+        else:
+            risk_level = 'low'
+            recommendation = 'CT scan NOT recommended'
+            interpretation = 'CT scan NOT recommended'
+    else:
+        # Age >= 24 months
+        if gcs < 15 or signs_basal_skull_fracture or altered_mental_status:
+            risk_level = 'high'
+            recommendation = 'CT scan recommended'
+            interpretation = 'CT scan recommended'
+        elif (loss_of_consciousness or 
+              vomiting or 
+              severe_mechanism or 
+              severe_headache):
+            risk_level = 'intermediate'
+            recommendation = ('CT scan versus observation: individualise based on '
+                            'physician experience, multiple vs isolated findings, '
+                            'worsening symptoms, age < 3 months, parental preference')
+            interpretation = recommendation
+        else:
+            risk_level = 'low'
+            recommendation = 'CT scan NOT recommended'
+            interpretation = 'CT scan NOT recommended'
+    
+    return {
+        "risk_level": risk_level,
+        "recommendation": recommendation,
+        "interpretation": interpretation,
+    }
